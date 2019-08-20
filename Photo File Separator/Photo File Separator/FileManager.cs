@@ -39,8 +39,6 @@ namespace Photo_File_Separator
         {
             //检查父文件夹存不存在
             FileHelper.checkDir(config.copyToDir);
-            FileHelper.checkDir(config.copyToDir + "\\xhdpi");
-            FileHelper.checkDir(config.copyToDir + "\\xxhdpi");
             FileInfo fileinfo = new FileInfo(file);
             String name = fileinfo.Name;
             if (config.oneName.Length == 0)
@@ -64,29 +62,15 @@ namespace Photo_File_Separator
             }
             if (file.IndexOf("@2x") >= 0)
             {
+                FileHelper.checkDir(config.copyToDir + "\\xhdpi");
                 name = name.Replace("@2x", "");
                 copy(file, config.copyToDir, "\\xhdpi\\" + name);
             }
             else if (file.IndexOf("@3x") >= 0)
             {
+                FileHelper.checkDir(config.copyToDir + "\\xxhdpi");
                 name = name.Replace("@3x", "");
                 copy(file, config.copyToDir, "\\xxhdpi\\" + name);
-            }
-            else if (file.IndexOf("xhdpi") >= 0)
-            {
-                name = name.Replace("xhdpi", "");
-                copy(file, config.copyToDir, "\\xhdpi\\" + name);
-            }
-            else if (file.IndexOf("xxhdpi") >= 0)
-            {
-                name = name.Replace("xxhdpi", "");
-                copy(file, config.copyToDir, "\\xxhdpi\\" + name);
-            }
-            else if (file.IndexOf("hdpi") >= 0)
-            {
-                FileHelper.checkDir(config.copyToDir + "\\hdpi");
-                name = name.Replace("hdpi", "");
-                copy(file, config.copyToDir, "\\hdpi\\" + name);
             }
             else if (file.IndexOf("xxxhdpi") >= 0)
             {
@@ -94,6 +78,54 @@ namespace Photo_File_Separator
                 name = name.Replace("xxxhdpi", "");
                 copy(file, config.copyToDir, "\\xxxhdpi\\" + name);
             }
+            else if (file.IndexOf("xxhdpi") >= 0)
+            {
+                FileHelper.checkDir(config.copyToDir + "\\xxhdpi");
+                name = name.Replace("xxhdpi", "");
+                copy(file, config.copyToDir, "\\xxhdpi\\" + name);
+            }
+            else if (file.IndexOf("xhdpi") >= 0)
+            {
+                FileHelper.checkDir(config.copyToDir + "\\xhdpi");
+                name = name.Replace("xhdpi", "");
+                copy(file, config.copyToDir, "\\xhdpi\\" + name);
+            }
+            else if (file.IndexOf("hdpi") >= 0)
+            {
+                FileHelper.checkDir(config.copyToDir + "\\hdpi");
+                name = name.Replace("hdpi", "");
+                copy(file, config.copyToDir, "\\hdpi\\" + name);
+            }
+            else if (fileinfo.DirectoryName.IndexOf("xxxhdpi")>=0)
+            {
+                FileHelper.checkDir(config.copyToDir + "\\xxxhdpi");
+                name = name.Replace("xxxhdpi", "");
+                copy(file, config.copyToDir, "\\xxxhdpi\\" + name);
+            }
+            else if (fileinfo.DirectoryName.IndexOf("xxhdpi") >= 0)
+            {
+                FileHelper.checkDir(config.copyToDir + "\\xxhdpi");
+                name = name.Replace("xxhdpi", "");
+                copy(file, config.copyToDir, "\\xxhdpi\\" + name);
+            }
+            else if (fileinfo.DirectoryName.IndexOf("xhdpi") >= 0)
+            {
+                FileHelper.checkDir(config.copyToDir + "\\xhdpi");
+                name = name.Replace("xhdpi", "");
+                copy(file, config.copyToDir, "\\xhdpi\\" + name);
+            }
+            else if (fileinfo.DirectoryName.IndexOf("hdpi") >= 0)
+            {
+                FileHelper.checkDir(config.copyToDir + "\\hdpi");
+                name = name.Replace("hdpi", "");
+                copy(file, config.copyToDir, "\\hdpi\\" + name);
+            }
+            else
+            {
+                FileHelper.checkDir(config.copyToDir + "\\其他");
+                copy(file, config.copyToDir, "\\其他\\" + name);
+            }
+            
         }
 
         //检查,如果有相同的则移动到新的文件夹
