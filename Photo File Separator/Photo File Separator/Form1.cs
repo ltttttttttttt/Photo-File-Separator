@@ -76,6 +76,8 @@ namespace Photo_File_Separator
             else if (radioButton4.Checked)
                 config.repeatType = 3;
             //TODO 保存config到本地
+
+
             return config;
         }
 
