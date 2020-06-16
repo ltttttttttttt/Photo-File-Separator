@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,7 +27,28 @@ namespace Photo_File_Separator
         {
             if (FileHelper.IsExistFile(file))
             {
-                moveFile(file, config);
+                if (file.LastIndexOf(".rar") == file.Length - 4)
+                {
+                    Hashtable h = ZipUtil.CheckRar(file);
+                    foreach (DictionaryEntry de in h)
+                    {
+                        MessageBox.Show(string.Format("{0}-{1}", de.Key, de.Value));
+                    }
+                }
+                else if (file.LastIndexOf(".zip") == file.Length - 4)
+                {
+                    Hashtable h = ZipUtil.CheckRar(file);
+                    foreach (DictionaryEntry de in h)
+                    {
+                        MessageBox.Show(string.Format("{0}-{1}", de.Key, de.Value));
+                    }
+                }
+                else if (file.LastIndexOf(".7z") == file.Length - 3)
+                {
+
+                }
+                else
+                    moveFile(file, config);
             }
             else if (FileHelper.IsExistDirectory(file))
             {
