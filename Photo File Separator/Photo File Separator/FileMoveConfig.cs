@@ -1,13 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using 落地页测试代码;
 
-namespace Photo_File_Separator {
-    class FileMoveConfig {
+namespace Photo_File_Separator
+{
+    class FileMoveConfig
+    {
         public String copyToDir = "";//复制到的文件夹
         public String removeLast = "";//去掉的后缀
         public String removeFirst = "";//去掉的前缀
@@ -49,19 +51,30 @@ namespace Photo_File_Separator {
                 list.AddFirst(copyToDir);
                 j.copyToDirs = list;
             }
-            StreamWriter sw = new StreamWriter("PhotoFileSeparator.json");
-            sw.Write(JsonConvert.SerializeObject(j));
-            sw.Close();
-            //File.WriteAllText(System.AppDomain.CurrentDomain.BaseDirectory + "PhotoFileSeparator.json", JsonConvert.SerializeObject(j));
+            FileStream fs = new FileStream("PhotoFileSeparator.config", FileMode.Create);
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(fs, j);
+            fs.Close();
         }
 
         public static FileMoveConfigJson getJsonConfig()
         {
-            FileHelper.ExistsFile("PhotoFileSeparator.json");
-            String json = File.ReadAllText("PhotoFileSeparator.json");
-            FileMoveConfigJson nativeJ = null;
-            if (json != null)
-                nativeJ = JsonConvert.DeserializeObject<FileMoveConfigJson>(json);
+            FileHelper.ExistsFile("PhotoFileSeparator.config");
+            FileStream fs = new FileStream("PhotoFileSeparator.config", FileMode.Open);
+            BinaryFormatter bf = new BinaryFormatter();
+            FileMoveConfigJson nativeJ;
+            try
+            {
+                nativeJ = bf.Deserialize(fs) as FileMoveConfigJson;
+            }
+            catch
+            {
+                return null;
+            }
+            finally
+            {
+                fs.Close();
+            }
             return nativeJ;
         }
     }

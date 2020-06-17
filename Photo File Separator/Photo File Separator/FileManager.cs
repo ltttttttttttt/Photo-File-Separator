@@ -11,6 +11,8 @@ namespace Photo_File_Separator
 {
     class FileManager
     {
+        private static int id = 0;
+
         //开始全部的移动
         public static void actionMove(Array array, FileMoveConfig config)
         {
@@ -29,23 +31,26 @@ namespace Photo_File_Separator
             {
                 if (file.LastIndexOf(".rar") == file.Length - 4)
                 {
-                    Hashtable h = ZipUtil.CheckRar(file);
-                    foreach (DictionaryEntry de in h)
-                    {
-                        MessageBox.Show(string.Format("{0}-{1}", de.Key, de.Value));
-                    }
+                    MessageBox.Show("暂不支持rar压缩包");
                 }
                 else if (file.LastIndexOf(".zip") == file.Length - 4)
                 {
-                    Hashtable h = ZipUtil.CheckRar(file);
-                    foreach (DictionaryEntry de in h)
+                    String cachePath = "cache\\" + id + "\\";
+                    id++;
+                    FileHelper.checkDir(cachePath);
+                    ZipUtil.UnZip(file, cachePath);
+                    move(cachePath, config);
+                    FileHelper.DeleteDirAndFile(cachePath);
+                    //如果删除了当前文件夹后,cache文件夹无内容,就删除cache文件夹
+                    String[] ss = FileHelper.getDirAndFiles("cache\\");
+                    if (ss == null || ss.Length == 0)
                     {
-                        MessageBox.Show(string.Format("{0}-{1}", de.Key, de.Value));
+                        FileHelper.DeleteDir("cache");
                     }
                 }
                 else if (file.LastIndexOf(".7z") == file.Length - 3)
                 {
-
+                    MessageBox.Show("暂不支持7z压缩包");
                 }
                 else
                     moveFile(file, config);

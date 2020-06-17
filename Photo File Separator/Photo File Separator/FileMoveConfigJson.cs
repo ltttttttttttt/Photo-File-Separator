@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Photo_File_Separator {
-    class FileMoveConfigJson {
+namespace Photo_File_Separator
+{
+    [Serializable]
+    class FileMoveConfigJson
+    {
         public LinkedList<String> copyToDirs;//复制到的文件夹
         public String removeLast;//去掉的后缀
         public String removeFirst;//去掉的前缀
