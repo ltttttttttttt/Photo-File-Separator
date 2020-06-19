@@ -69,6 +69,57 @@ namespace Photo_File_Separator
             FileInfo fileinfo = new FileInfo(file);
             //文件名字和后缀
             String name = fileinfo.Name;
+            String dir = "";
+            if (file.IndexOf("@2x") >= 0)
+            {
+                name = name.Replace("@2x", "");
+                dir = "\\xhdpi\\";
+            }
+            else if (file.IndexOf("@3x") >= 0)
+            {
+                name = name.Replace("@3x", "");
+                dir = "\\xxhdpi\\";
+            }
+            else if (file.IndexOf("xxxhdpi") >= 0)
+            {
+                name = name.Replace("xxxhdpi", "");
+                dir = "\\xxxhdpi\\";
+            }
+            else if (file.IndexOf("xxhdpi") >= 0)
+            {
+                name = name.Replace("xxhdpi", "");
+                dir = "\\xxhdpi\\";
+            }
+            else if (file.IndexOf("xhdpi") >= 0)
+            {
+                name = name.Replace("xhdpi", "");
+                dir = "\\xhdpi\\";
+            }
+            else if (file.IndexOf("hdpi") >= 0)
+            {
+                name = name.Replace("hdpi", "");
+                dir = "\\hdpi\\";
+            }
+            else if (fileinfo.DirectoryName.IndexOf("xxxhdpi") >= 0)
+            {
+                dir = "\\xxxhdpi\\";
+            }
+            else if (fileinfo.DirectoryName.IndexOf("xxhdpi") >= 0)
+            {
+                dir = "\\xxhdpi\\";
+            }
+            else if (fileinfo.DirectoryName.IndexOf("xhdpi") >= 0)
+            {
+                dir = "\\xhdpi\\";
+            }
+            else if (fileinfo.DirectoryName.IndexOf("hdpi") >= 0)
+            {
+                dir = "\\hdpi\\";
+            }
+            else
+            {
+                dir = "\\其他\\";
+            }
             if (config.oneName.Length == 0)
             {
                 //不是统一设置命名
@@ -78,7 +129,7 @@ namespace Photo_File_Separator
                     name = name.Substring(config.removeFirst.Length, name.Length - config.removeFirst.Length);
                 }
                 //去掉后缀
-                int lastPosition = Path.GetFileName(file).ToString().LastIndexOf(config.removeLast);
+                int lastPosition = name.LastIndexOf(config.removeLast);
                 if (config.removeLast.Length != 0 && lastPosition > 0)
                 {
                     String nameCopy = name;
@@ -98,61 +149,7 @@ namespace Photo_File_Separator
                 //如果是统一设置命名
                 name = config.oneName + Path.GetExtension(file);
             }
-            if (file.IndexOf("@2x") >= 0)
-            {
-                name = name.Replace("@2x", "");
-                copy(file, config.copyToDir, "\\xhdpi\\" + name, config);
-            }
-            else if (file.IndexOf("@3x") >= 0)
-            {
-                name = name.Replace("@3x", "");
-                copy(file, config.copyToDir, "\\xxhdpi\\" + name, config);
-            }
-            else if (file.IndexOf("xxxhdpi") >= 0)
-            {
-                name = name.Replace("xxxhdpi", "");
-                copy(file, config.copyToDir, "\\xxxhdpi\\" + name, config);
-            }
-            else if (file.IndexOf("xxhdpi") >= 0)
-            {
-                name = name.Replace("xxhdpi", "");
-                copy(file, config.copyToDir, "\\xxhdpi\\" + name, config);
-            }
-            else if (file.IndexOf("xhdpi") >= 0)
-            {
-                name = name.Replace("xhdpi", "");
-                copy(file, config.copyToDir, "\\xhdpi\\" + name, config);
-            }
-            else if (file.IndexOf("hdpi") >= 0)
-            {
-                name = name.Replace("hdpi", "");
-                copy(file, config.copyToDir, "\\hdpi\\" + name, config);
-            }
-            else if (fileinfo.DirectoryName.IndexOf("xxxhdpi") >= 0)
-            {
-                name = name.Replace("xxxhdpi", "");
-                copy(file, config.copyToDir, "\\xxxhdpi\\" + name, config);
-            }
-            else if (fileinfo.DirectoryName.IndexOf("xxhdpi") >= 0)
-            {
-                name = name.Replace("xxhdpi", "");
-                copy(file, config.copyToDir, "\\xxhdpi\\" + name, config);
-            }
-            else if (fileinfo.DirectoryName.IndexOf("xhdpi") >= 0)
-            {
-                name = name.Replace("xhdpi", "");
-                copy(file, config.copyToDir, "\\xhdpi\\" + name, config);
-            }
-            else if (fileinfo.DirectoryName.IndexOf("hdpi") >= 0)
-            {
-                name = name.Replace("hdpi", "");
-                copy(file, config.copyToDir, "\\hdpi\\" + name, config);
-            }
-            else
-            {
-                copy(file, config.copyToDir, "\\其他\\" + name, config);
-            }
-
+            copy(file, config.copyToDir, dir + name, config);
         }
 
         //检查,如果有相同的则移动到新的文件夹
