@@ -7,6 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Data;
 using 落地页测试代码;
 using ICSharpCode.SharpZipLib.Zip;
+using System.Windows.Forms;
 
 namespace Photo_File_Separator
 {
@@ -25,7 +26,14 @@ namespace Photo_File_Separator
                 Directory.CreateDirectory(directoryName);
                 if (fileName != String.Empty)
                 {
-                    FileHelper.checkDir(new FileInfo(outDir + theEntry.Name).Directory.ToString());
+                    try
+                    {
+                        FileHelper.checkDir(new FileInfo(outDir + theEntry.Name).Directory.ToString());
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("请检查压缩包内是否使用了中文,错误信息:" + e.Message);
+                    }
                     //解压文件到指定的目录   
                     FileStream streamWriter = File.Create(outDir + theEntry.Name);
                     int size = 2048;
