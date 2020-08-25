@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using 落地页测试代码;
 
@@ -153,11 +154,36 @@ namespace Photo_File_Separator
         }
 
         //检查,如果有相同的则移动到新的文件夹
-        //from  之前的全路径C\\a.jpg
-        //toDir  要移动到的父目录C\\
-        //toName  要移动到的详细目录/文件名xxhdpi\\a.jpg
+        //from  之前的全路径    C\\b\\a.jpg
+        //toDir  要移动到的父目录    C\\b
+        //toName  要移动到的详细目录/文件名    \\xxhdpi\\a.jpg
         public static void copy(String from, String toDir, String toName, FileMoveConfig config)
         {
+            //检测如果有非英文,数字,下划线,就把其设置为下划线
+            int index1 = toName.LastIndexOf(@"\");
+            int index2 = toName.LastIndexOf(".");
+            String trueName;
+            if (index2 >= 0)
+            {
+                trueName = toName.Substring(index1 + 1, index2 - index1 - 1);
+            }
+            else
+            {
+                trueName = toName.Substring(index1);
+            }
+            trueName = Regex.Replace(trueName, "[^a-zA-Z0-9_]", "_");
+            if (trueName.Length == 0 || (trueName[0] >= '0' && trueName[0] <= '9'))
+            {
+                trueName = "_" + trueName;
+            }
+            if (index2 >= 0)
+            {
+                toName = toName.Substring(0, index1) + "\\" + trueName + toName.Substring(index2);
+            }
+            else
+            {
+                toName = toName.Substring(0, index1) + "\\" + trueName;
+            }
             //增加图片上层文件夹的类型
             toName = "\\" + config.imgDirType + "-" + toName.Substring(1);
             if (FileHelper.IsExistFile(toDir + toName))
