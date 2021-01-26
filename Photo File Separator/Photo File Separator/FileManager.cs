@@ -304,10 +304,11 @@ namespace Photo_File_Separator
             // 将图片重绘到新画布
             Graphics g = Graphics.FromImage(bmp);
             g.DrawImage(pic, 0, 0, pic.Width, pic.Height);
-            pic.Clone();
+            pic.Dispose();
             // 转码并保存文件
             System.IO.FileStream fs = System.IO.File.Create(webpPath);
             new Imazen.WebP.SimpleEncoder().Encode(bmp, fs, webpValue);
+            bmp.Dispose();
             fs.Close();
         }
 
