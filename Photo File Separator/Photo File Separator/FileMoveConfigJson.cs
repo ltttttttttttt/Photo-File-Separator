@@ -16,5 +16,7 @@ namespace Photo_File_Separator
         public String addFirst;//增加的前缀
         public String imgDirType;//图片上层文件夹的类型,比如mipmap
         public int repeatType = 0;//重复策略:0尾数增加,1复制到新文件夹中,2忽略,3覆盖
+        public bool isToWebP = false;//是否压缩至webp格式
+        public int webpValue = 75;//webp的压缩率
     }
 }

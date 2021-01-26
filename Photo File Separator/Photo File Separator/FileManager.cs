@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -159,7 +160,7 @@ namespace Photo_File_Separator
         //toName  要移动到的详细目录/文件名    \\xxhdpi\\a.jpg
         public static void copy(String from, String toDir, String toName, FileMoveConfig config)
         {
-            //检测如果有非英文,数字,下划线,就把其设置为下划线
+            //检测如果有非小英文,数字,下划线,就把其设置为下划线
             int index1 = toName.LastIndexOf(@"\");
             int index2 = toName.LastIndexOf(".");
             String trueName;
@@ -171,7 +172,9 @@ namespace Photo_File_Separator
             {
                 trueName = toName.Substring(index1);
             }
-            trueName = Regex.Replace(trueName, "[^a-zA-Z0-9_]", "_");
+            //大写要转成小写
+            trueName = trueName.ToLower();
+            trueName = Regex.Replace(trueName, "[^a-z0-9_]", "_");
             if (trueName.Length == 0 || (trueName[0] >= '0' && trueName[0] <= '9'))
             {
                 trueName = "_" + trueName;
@@ -253,7 +256,36 @@ namespace Photo_File_Separator
             }
             //检查父文件夹是否存在
             FileHelper.checkDir(new FileInfo(toDir + toName).Directory.ToString());
-            FileHelper.copy(from, toDir + toName);
+            if (config.isToWebP)
+            {
+                toName = toName.Substring(0, toName.IndexOf('.') - 1) + ".webp";
+                imageChangeToWebp(from, toDir + toName, config.webpValue);
+            }
+            else
+            {
+                FileHelper.copy(from, toDir + toName);
+            }
+        }
+
+        //将img(jpg或png)转换为webp,三方库参考: https://www.nuget.org/packages/Imazen.WebP/    https://developer.aliyun.com/article/678410
+        public static void imageChangeToWebp(String imagePath, String webpPath, int webpValue)
+        {
+            //读取webp图片
+            //Byte[] bs = System.IO.File.ReadAllBytes("指定的WebP图片");
+            // Bitmap img =new Imazen.WebP.SimpleDecoder().DecodeFromBytes(bs, bs.Length);
+
+            //将普通图片转为webp图片
+            Image pic = Image.FromFile(imagePath);
+            //WebP只支持 Format32bppArgb 和 Format32bppRgb 两种像素格式,所以有时候需要改码，重绘一个图像
+            Bitmap bmp = new Bitmap(pic.Width, pic.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            // 将图片重绘到新画布
+            Graphics g = Graphics.FromImage(bmp);
+            g.DrawImage(pic, 0, 0, pic.Width, pic.Height);
+            pic.Clone();
+            // 转码并保存文件
+            System.IO.FileStream fs = System.IO.File.Create(webpPath);
+            new Imazen.WebP.SimpleEncoder().Encode(bmp, fs, webpValue);
+            fs.Close();
         }
 
         //开始移动文件夹

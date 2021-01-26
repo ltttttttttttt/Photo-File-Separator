@@ -11,8 +11,10 @@ using System.Text;
 using System.Windows.Forms;
 using 落地页测试代码;
 
-namespace Photo_File_Separator {
-    public partial class Form1 : Form {
+namespace Photo_File_Separator
+{
+    public partial class Form1 : Form
+    {
         long time = 0;
         public Form1()
         {
@@ -75,6 +77,8 @@ namespace Photo_File_Separator {
                 config.repeatType = 2;
             else if (radioButton4.Checked)
                 config.repeatType = 3;
+            config.isToWebP = cbWebp.Checked;
+            config.webpValue = trackBar1.Value;
             //保存config到本地
             config.saveConfig();
             return config;
@@ -117,6 +121,11 @@ namespace Photo_File_Separator {
             }
             if (j.copyToDirs.First != null)
                 textBox1.Text = j.copyToDirs.First.Value;
+            cbWebp.Checked = j.isToWebP;
+            tvWebp.Enabled = j.isToWebP;
+            trackBar1.Enabled = j.isToWebP;
+            trackBar1.Value = j.webpValue;
+            tvWebp.Text = "压缩率" + j.webpValue + "(推荐75)";
             textBox1.DataSource = j.copyToDirs.ToList();
         }
 
@@ -135,6 +144,26 @@ namespace Photo_File_Separator {
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            getConfig();
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            tvWebp.Text = "压缩率" + ((TrackBar)sender).Value + "(推荐75)";
+        }
+
+        private void cbWebp_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox)sender).Checked)
+            {
+                tvWebp.Enabled = true;
+                trackBar1.Enabled = true;
+            }
+            else
+            {
+                tvWebp.Enabled = false;
+                trackBar1.Enabled = false;
+            }
             getConfig();
         }
     }

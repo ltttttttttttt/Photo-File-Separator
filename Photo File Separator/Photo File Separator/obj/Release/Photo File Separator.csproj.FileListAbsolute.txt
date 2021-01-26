@@ -1,0 +1,12 @@
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\bin\Release\Photo File Separator.exe
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\bin\Release\Photo File Separator.pdb
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\bin\Release\SharpZipLib.dll
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\obj\Release\Photo File Separator.csprojResolveAssemblyReference.cache
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\obj\Release\Photo_File_Separator.Form1.resources
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\obj\Release\Photo_File_Separator.Properties.Resources.resources
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\obj\Release\Photo File Separator.csproj.GenerateResource.Cache
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\obj\Release\Photo File Separator.exe
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\obj\Release\Photo File Separator.pdb
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\bin\Release\Photo File Separator.exe.config
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\bin\Release\Imazen.WebP.dll
+C:\project\GitHubLtViews\Photo-File-Separator\Photo File Separator\Photo File Separator\bin\Release\Imazen.WebP.xml
