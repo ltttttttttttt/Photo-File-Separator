@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -69,6 +70,10 @@ namespace Photo_File_Separator
                 config.imgDirType = "mipmap";
             else if (rbDrawable.Checked)
                 config.imgDirType = "drawable";
+            else if (rbEmpty.Checked)
+                config.imgDirType = "";
+            else if (rbDiy.Checked)
+                config.imgDirType = etDiy.Text;
             if (radioButton2.Checked)
                 config.repeatType = 0;
             else if (radioButton1.Checked)
@@ -81,6 +86,7 @@ namespace Photo_File_Separator
             config.webpValue = trackBar1.Value;
             //保存config到本地
             config.saveConfig();
+            config.form1 = this;
             return config;
         }
 
@@ -103,6 +109,13 @@ namespace Photo_File_Separator
                 rbMipmap.Checked = true;
             else if ("drawable" == imgDirType)
                 rbDrawable.Checked = true;
+            else if ("" == imgDirType)
+                rbEmpty.Checked = true;
+            else
+            {
+                rbDiy.Checked = true;
+                etDiy.Text = imgDirType;
+            }
             int repeatType = j.repeatType;
             switch (repeatType)
             {
@@ -138,8 +151,16 @@ namespace Photo_File_Separator
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            if (((RadioButton)sender).Checked)
+            RadioButton rb = (RadioButton)sender;
+            if (rb.Checked)
+            {
                 MessageBox.Show("警告:该配置比较危险,容易丢失文件,请谨慎使用");
+                rb.BackColor = getRedColor();
+            }
+            else
+            {
+                rb.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Control);
+            }
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
@@ -149,7 +170,16 @@ namespace Photo_File_Separator
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            tvWebp.Text = "压缩率" + ((TrackBar)sender).Value + "(推荐75)";
+            TrackBar tb = (TrackBar)sender;
+            tvWebp.Text = "压缩率" + tb.Value + "(推荐75)";
+            if (tb.Value >= 95)
+            {
+                tb.BackColor = getRedColor();
+            }
+            else
+            {
+                tb.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Control);
+            }
         }
 
         private void cbWebp_CheckedChanged(object sender, EventArgs e)
@@ -164,7 +194,37 @@ namespace Photo_File_Separator
                 tvWebp.Enabled = false;
                 trackBar1.Enabled = false;
             }
-            getConfig();
+        }
+
+        //打印日志
+        public void printLog(String from, String toName, FileMoveConfig config)
+        {
+            if (rvLog.SmallImageList == null)
+            {
+                rvLog.SmallImageList = new ImageList();
+            }
+            rvLog.SmallImageList.Images.Add(ImageUtil.getImageFromFile(from));
+            rvLog.Items.Add(toName, rvLog.SmallImageList.Images.Count - 1);
+            rvLog.EnsureVisible(rvLog.Items.Count - 1);
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (tb.Text == null || tb.Text.Length == 0)
+            {
+                tb.BackColor = Color.FromKnownColor(System.Drawing.KnownColor.Window);
+            }
+            else
+            {
+                tb.BackColor = getRedColor();
+            }
+        }
+
+        //获取警告红
+        private Color getRedColor()
+        {
+            return Color.FromArgb(0xef, 0x7a, 0x82);
         }
     }
 }

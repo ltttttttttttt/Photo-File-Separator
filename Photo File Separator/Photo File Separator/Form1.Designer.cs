@@ -55,21 +55,26 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tvWebp = new System.Windows.Forms.Label();
+            this.rvLog = new System.Windows.Forms.ListView();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.rbEmpty = new System.Windows.Forms.RadioButton();
+            this.rbDiy = new System.Windows.Forms.RadioButton();
+            this.etDiy = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
             // 
             this.button1.AllowDrop = true;
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.Location = new System.Drawing.Point(16, 378);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(555, 124);
+            this.button1.Size = new System.Drawing.Size(872, 163);
             this.button1.TabIndex = 9;
             this.button1.Text = "拖动文件到这里或点击选择文件夹";
             this.button1.UseVisualStyleBackColor = true;
@@ -79,7 +84,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(430, 48);
+            this.button2.Location = new System.Drawing.Point(747, 7);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(141, 35);
             this.button2.TabIndex = 2;
@@ -93,6 +98,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(141, 25);
             this.textBox2.TabIndex = 3;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label1
             // 
@@ -118,12 +124,13 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(141, 25);
             this.textBox3.TabIndex = 1;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(345, 152);
+            this.label3.Location = new System.Drawing.Point(16, 180);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 15);
             this.label3.TabIndex = 8;
@@ -131,16 +138,17 @@
             // 
             // textBox4
             // 
-            this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox4.Location = new System.Drawing.Point(430, 149);
+            this.textBox4.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBox4.Location = new System.Drawing.Point(101, 177);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(141, 25);
             this.textBox4.TabIndex = 7;
+            this.textBox4.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(167, 53);
+            this.button3.Location = new System.Drawing.Point(122, 53);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 25);
             this.button3.TabIndex = 9;
@@ -150,9 +158,9 @@
             // 
             // label4
             // 
-            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(345, 90);
+            this.label4.Location = new System.Drawing.Point(16, 118);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(67, 15);
             this.label4.TabIndex = 13;
@@ -160,17 +168,18 @@
             // 
             // textBox5
             // 
-            this.textBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox5.Location = new System.Drawing.Point(430, 87);
+            this.textBox5.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBox5.Location = new System.Drawing.Point(101, 115);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(141, 25);
             this.textBox5.TabIndex = 4;
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label5
             // 
-            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(345, 121);
+            this.label5.Location = new System.Drawing.Point(16, 149);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 15);
             this.label5.TabIndex = 11;
@@ -178,19 +187,23 @@
             // 
             // textBox6
             // 
-            this.textBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox6.Location = new System.Drawing.Point(430, 118);
+            this.textBox6.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBox6.Location = new System.Drawing.Point(101, 146);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(141, 25);
             this.textBox6.TabIndex = 6;
+            this.textBox6.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.etDiy);
+            this.groupBox1.Controls.Add(this.rbDiy);
+            this.groupBox1.Controls.Add(this.rbEmpty);
             this.groupBox1.Controls.Add(this.rbDrawable);
             this.groupBox1.Controls.Add(this.rbMipmap);
-            this.groupBox1.Location = new System.Drawing.Point(13, 115);
+            this.groupBox1.Location = new System.Drawing.Point(19, 208);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(229, 59);
+            this.groupBox1.Size = new System.Drawing.Size(472, 59);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "图片类型";
@@ -198,7 +211,7 @@
             // rbDrawable
             // 
             this.rbDrawable.AutoSize = true;
-            this.rbDrawable.Location = new System.Drawing.Point(114, 22);
+            this.rbDrawable.Location = new System.Drawing.Point(114, 25);
             this.rbDrawable.Name = "rbDrawable";
             this.rbDrawable.Size = new System.Drawing.Size(92, 19);
             this.rbDrawable.TabIndex = 1;
@@ -209,7 +222,7 @@
             // 
             this.rbMipmap.AutoSize = true;
             this.rbMipmap.Checked = true;
-            this.rbMipmap.Location = new System.Drawing.Point(32, 22);
+            this.rbMipmap.Location = new System.Drawing.Point(32, 25);
             this.rbMipmap.Name = "rbMipmap";
             this.rbMipmap.Size = new System.Drawing.Size(76, 19);
             this.rbMipmap.TabIndex = 0;
@@ -223,9 +236,9 @@
             this.groupBox2.Controls.Add(this.radioButton3);
             this.groupBox2.Controls.Add(this.radioButton1);
             this.groupBox2.Controls.Add(this.radioButton2);
-            this.groupBox2.Location = new System.Drawing.Point(13, 180);
+            this.groupBox2.Location = new System.Drawing.Point(19, 273);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(558, 53);
+            this.groupBox2.Size = new System.Drawing.Size(472, 53);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "重复策略";
@@ -282,7 +295,7 @@
             this.textBox1.Location = new System.Drawing.Point(13, 19);
             this.textBox1.MaxDropDownItems = 10;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(558, 23);
+            this.textBox1.Size = new System.Drawing.Size(728, 23);
             this.textBox1.TabIndex = 0;
             // 
             // cbWebp
@@ -311,7 +324,7 @@
             this.groupBox3.Controls.Add(this.tvWebp);
             this.groupBox3.Controls.Add(this.trackBar1);
             this.groupBox3.Controls.Add(this.cbWebp);
-            this.groupBox3.Location = new System.Drawing.Point(19, 239);
+            this.groupBox3.Location = new System.Drawing.Point(268, 53);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(223, 133);
             this.groupBox3.TabIndex = 16;
@@ -327,11 +340,66 @@
             this.tvWebp.TabIndex = 16;
             this.tvWebp.Text = "压缩率(推荐75)";
             // 
+            // rvLog
+            // 
+            this.rvLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rvLog.Location = new System.Drawing.Point(6, 24);
+            this.rvLog.Name = "rvLog";
+            this.rvLog.Size = new System.Drawing.Size(359, 287);
+            this.rvLog.TabIndex = 17;
+            this.rvLog.UseCompatibleStateImageBehavior = false;
+            this.rvLog.View = System.Windows.Forms.View.SmallIcon;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.rvLog);
+            this.groupBox4.Location = new System.Drawing.Point(517, 48);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(371, 324);
+            this.groupBox4.TabIndex = 18;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "日志";
+            // 
+            // rbEmpty
+            // 
+            this.rbEmpty.AutoSize = true;
+            this.rbEmpty.Location = new System.Drawing.Point(212, 25);
+            this.rbEmpty.Name = "rbEmpty";
+            this.rbEmpty.Size = new System.Drawing.Size(43, 19);
+            this.rbEmpty.TabIndex = 2;
+            this.rbEmpty.TabStop = true;
+            this.rbEmpty.Text = "无";
+            this.rbEmpty.UseVisualStyleBackColor = true;
+            // 
+            // rbDiy
+            // 
+            this.rbDiy.AutoSize = true;
+            this.rbDiy.Location = new System.Drawing.Point(261, 25);
+            this.rbDiy.Name = "rbDiy";
+            this.rbDiy.Size = new System.Drawing.Size(17, 16);
+            this.rbDiy.TabIndex = 3;
+            this.rbDiy.TabStop = true;
+            this.rbDiy.UseVisualStyleBackColor = true;
+            // 
+            // etDiy
+            // 
+            this.etDiy.Location = new System.Drawing.Point(285, 23);
+            this.etDiy.Name = "etDiy";
+            this.etDiy.Size = new System.Drawing.Size(181, 25);
+            this.etDiy.TabIndex = 4;
+            this.etDiy.Text = "自定义";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(583, 514);
+            this.ClientSize = new System.Drawing.Size(900, 553);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox2);
@@ -363,6 +431,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -397,6 +466,11 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label tvWebp;
+        private System.Windows.Forms.ListView rvLog;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.RadioButton rbDiy;
+        private System.Windows.Forms.RadioButton rbEmpty;
+        private System.Windows.Forms.TextBox etDiy;
     }
 }
 

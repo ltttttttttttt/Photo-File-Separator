@@ -8,7 +8,7 @@ using 落地页测试代码;
 
 namespace Photo_File_Separator
 {
-    class FileMoveConfig
+    public class FileMoveConfig
     {
         public String copyToDir = "";//复制到的文件夹
         public String removeLast = "";//去掉的后缀
@@ -20,6 +20,7 @@ namespace Photo_File_Separator
         public int repeatType = 0;//重复策略:0尾数增加,1复制到新文件夹中,2忽略,3覆盖
         public bool isToWebP = false;//是否压缩至webp格式
         public int webpValue = 75;//webp的压缩率
+        public Form1 form1 = null;//窗体引用
 
         public void saveConfig()
         {

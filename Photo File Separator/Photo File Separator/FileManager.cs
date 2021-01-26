@@ -151,7 +151,12 @@ namespace Photo_File_Separator
                 //如果是统一设置命名
                 name = config.oneName + Path.GetExtension(file);
             }
-            copy(file, config.copyToDir, dir + name, config);
+            String toName;
+            if ("" == config.imgDirType)
+                toName = name;
+            else
+                toName = dir + name;
+            copy(file, config.copyToDir, toName, config);
         }
 
         //检查,如果有相同的则移动到新的文件夹
@@ -162,11 +167,14 @@ namespace Photo_File_Separator
         {
             //检测如果有非小英文,数字,下划线,就把其设置为下划线
             int index1 = toName.LastIndexOf(@"\");
+            if (index1 < 0)
+                index1 = 0;
             int index2 = toName.LastIndexOf(".");
             String trueName;
             if (index2 >= 0)
             {
-                trueName = toName.Substring(index1 + 1, index2 - index1 - 1);
+                int a = "" == config.imgDirType ? 0 : 1;
+                trueName = toName.Substring(index1 + a, index2 - index1 - a);
             }
             else
             {
@@ -188,7 +196,21 @@ namespace Photo_File_Separator
                 toName = toName.Substring(0, index1) + "\\" + trueName;
             }
             //增加图片上层文件夹的类型
-            toName = "\\" + config.imgDirType + "-" + toName.Substring(1);
+            if (config.imgDirType != "")
+            {
+                if ("mipmap" != config.imgDirType && "drawable" != config.imgDirType)
+                {
+                    toName = "\\" + config.imgDirType + toName.Substring(3);
+                }
+                else
+                {
+                    toName = "\\" + config.imgDirType + "-" + toName.Substring(1);
+                }
+            }
+            if (config.isToWebP)
+            {
+                toName = toName.Substring(0, toName.LastIndexOf('.')) + ".webp";
+            }
             if (FileHelper.IsExistFile(toDir + toName))
             {
                 //发现了重复,重复策略:0尾数增加,1复制到新文件夹中,2忽略,3覆盖
@@ -258,13 +280,14 @@ namespace Photo_File_Separator
             FileHelper.checkDir(new FileInfo(toDir + toName).Directory.ToString());
             if (config.isToWebP)
             {
-                toName = toName.Substring(0, toName.IndexOf('.') - 1) + ".webp";
                 imageChangeToWebp(from, toDir + toName, config.webpValue);
             }
             else
             {
                 FileHelper.copy(from, toDir + toName);
             }
+            if (config.form1 != null)
+                config.form1.printLog(from,toName, config);
         }
 
         //将img(jpg或png)转换为webp,三方库参考: https://www.nuget.org/packages/Imazen.WebP/    https://developer.aliyun.com/article/678410
