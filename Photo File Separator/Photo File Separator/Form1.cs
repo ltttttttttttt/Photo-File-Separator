@@ -52,7 +52,7 @@ namespace Photo_File_Separator
             //开始执行单个文件夹
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                FileManager.move(folderBrowserDialog1.SelectedPath.ToString(), getConfig());
+                FileManager.actionMove(new String[] { folderBrowserDialog1.SelectedPath.ToString() }, getConfig());
             }
         }
 
@@ -84,6 +84,7 @@ namespace Photo_File_Separator
                 config.repeatType = 3;
             config.isToWebP = cbWebp.Checked;
             config.webpValue = trackBar1.Value;
+            config.isAutoCopyImgId = cbCopyId.Checked;
             //保存config到本地
             config.saveConfig();
             config.form1 = this;
@@ -138,6 +139,7 @@ namespace Photo_File_Separator
             tvWebp.Enabled = j.isToWebP;
             trackBar1.Enabled = j.isToWebP;
             trackBar1.Value = j.webpValue;
+            cbCopyId.Checked = j.isAutoCopyImgId;
             tvWebp.Text = "压缩率" + j.webpValue + "(推荐75)";
             textBox1.DataSource = j.copyToDirs.ToList();
         }
@@ -206,6 +208,29 @@ namespace Photo_File_Separator
             rvLog.SmallImageList.Images.Add(ImageUtil.getImageFromFile(from));
             rvLog.Items.Add(toName, rvLog.SmallImageList.Images.Count - 1);
             rvLog.EnsureVisible(rvLog.Items.Count - 1);
+            if (config.isAutoCopyImgId)
+                copyId(toName);
+        }
+
+        public void copyId(String toName)
+        {
+            String trueName = "";
+            if (toName.Contains('\\') && toName.Contains('.'))
+            {
+                int index = toName.LastIndexOf('\\') + 1;
+                trueName = toName.Substring(index, toName.LastIndexOf('.') - index);
+            }
+            else if (toName.Contains('\\'))
+                trueName = toName.Substring(toName.LastIndexOf('\\'));
+            else if (toName.Contains('.'))
+                trueName = toName.Substring(0, toName.LastIndexOf('.'));
+            else
+                trueName = toName;
+            if (rbMipmap.Checked)
+                trueName = "R.mipmap." + trueName;
+            else if (rbDrawable.Checked)
+                trueName = "R.drawable." + trueName;
+            Clipboard.SetText(trueName);
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -225,6 +250,33 @@ namespace Photo_File_Separator
         private Color getRedColor()
         {
             return Color.FromArgb(0xef, 0x7a, 0x82);
+        }
+
+        private void rvLog_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                rvLog.ContextMenuStrip = null;
+                if (rvLog.SelectedItems.Count > 0)
+                {
+                    contextMenuStrip1.Show(rvLog, new Point(e.X, e.Y));
+                }
+            }
+
+        }
+
+        private void 清除数据ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            rvLog.Items.Clear();
+        }
+
+        private void rvLog_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListView rv = (ListView)sender;
+            if (rv.SelectedItems.Count == 1)
+            {
+                copyId(rv.Items[rv.SelectedIndices[0]].Text);
+            }
         }
     }
 }

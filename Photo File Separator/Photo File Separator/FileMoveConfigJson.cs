@@ -18,5 +18,6 @@ namespace Photo_File_Separator
         public int repeatType = 0;//重复策略:0尾数增加,1复制到新文件夹中,2忽略,3覆盖
         public bool isToWebP = false;//是否压缩至webp格式
         public int webpValue = 75;//webp的压缩率
+        public bool isAutoCopyImgId = false;//是否自动复制图片的id,来让安卓更易用
     }
 }

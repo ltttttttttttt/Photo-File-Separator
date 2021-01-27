@@ -21,6 +21,7 @@ namespace Photo_File_Separator
         public bool isToWebP = false;//是否压缩至webp格式
         public int webpValue = 75;//webp的压缩率
         public Form1 form1 = null;//窗体引用
+        public bool isAutoCopyImgId = false;//是否自动复制图片的id,来让安卓更易用
 
         public void saveConfig()
         {
@@ -34,6 +35,7 @@ namespace Photo_File_Separator
             j.repeatType = repeatType;
             j.isToWebP = isToWebP;
             j.webpValue = webpValue;
+            j.isAutoCopyImgId = isAutoCopyImgId;
             FileMoveConfigJson nativeJ = getJsonConfig();
             if (nativeJ != null)
             {
