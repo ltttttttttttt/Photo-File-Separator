@@ -142,7 +142,7 @@ namespace Photo_File_Separator
             cbCopyId.Checked = j.isAutoCopyImgId;
             tvWebp.Text = "压缩率" + j.webpValue + "(推荐75)";
             textBox1.DataSource = j.copyToDirs.ToList();
-            setAppTheme(1);
+            //setAppTheme(1);emmm,太难看了,先这样吧
         }
 
         //设置应用的主题,0白色(默认)1黑色
