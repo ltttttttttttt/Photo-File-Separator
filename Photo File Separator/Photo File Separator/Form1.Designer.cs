@@ -136,7 +136,6 @@
             // 
             // label3
             // 
-            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(16, 180);
             this.label3.Name = "label3";
@@ -146,7 +145,6 @@
             // 
             // textBox4
             // 
-            this.textBox4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.textBox4.Location = new System.Drawing.Point(101, 177);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(141, 25);
@@ -166,7 +164,6 @@
             // 
             // label4
             // 
-            this.label4.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(16, 118);
             this.label4.Name = "label4";
@@ -176,7 +173,6 @@
             // 
             // textBox5
             // 
-            this.textBox5.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.textBox5.Location = new System.Drawing.Point(101, 115);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(141, 25);
@@ -185,7 +181,6 @@
             // 
             // label5
             // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(16, 149);
             this.label5.Name = "label5";
@@ -195,7 +190,6 @@
             // 
             // textBox6
             // 
-            this.textBox6.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.textBox6.Location = new System.Drawing.Point(101, 146);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(141, 25);
@@ -259,6 +253,7 @@
             // 
             this.rbMipmap.AutoSize = true;
             this.rbMipmap.Checked = true;
+            this.rbMipmap.ForeColor = System.Drawing.SystemColors.ControlText;
             this.rbMipmap.Location = new System.Drawing.Point(32, 25);
             this.rbMipmap.Name = "rbMipmap";
             this.rbMipmap.Size = new System.Drawing.Size(76, 19);
@@ -395,8 +390,7 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.rvLog);
             this.groupBox4.Location = new System.Drawing.Point(517, 48);
@@ -438,7 +432,7 @@
             // 清除数据ToolStripMenuItem
             // 
             this.清除数据ToolStripMenuItem.Name = "清除数据ToolStripMenuItem";
-            this.清除数据ToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.清除数据ToolStripMenuItem.Size = new System.Drawing.Size(138, 24);
             this.清除数据ToolStripMenuItem.Text = "清除数据";
             this.清除数据ToolStripMenuItem.Click += new System.EventHandler(this.清除数据ToolStripMenuItem_Click);
             // 

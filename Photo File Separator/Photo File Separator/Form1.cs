@@ -142,6 +142,60 @@ namespace Photo_File_Separator
             cbCopyId.Checked = j.isAutoCopyImgId;
             tvWebp.Text = "压缩率" + j.webpValue + "(推荐75)";
             textBox1.DataSource = j.copyToDirs.ToList();
+            setAppTheme(1);
+        }
+
+        //设置应用的主题,0白色(默认)1黑色
+        private void setAppTheme(int theme)
+        {
+            if (theme == 0)
+            {
+
+            }
+            else if (theme == 1)
+            {
+                BackColor = Color.FromArgb(0x12, 0x12, 0x12);
+                forEachView(this, new ViewListener());
+            }
+        }
+
+        public class ViewListener
+        {
+            public void each(Control view)
+            {
+                if (view is TextBox || view is ComboBox)
+                {
+                    view.BackColor = Color.Gray;
+                }
+                if (view is Label)
+                {
+                    ((Label)view).ForeColor = Color.White;
+                }
+                if (view is ButtonBase)
+                {
+                    ((ButtonBase)view).ForeColor = Color.White;
+                }
+                if (view is GroupBox)
+                {
+                    ((GroupBox)view).ForeColor = Color.White;
+                }
+
+            }
+        }
+
+        //遍历view,但是C#没有匿名内部类?不多做研究
+        private void forEachView(Control view, ViewListener listener)
+        {
+            if (view is GroupBox || view is Form)
+            {
+                listener.each(this);
+                foreach (Control v in view.Controls)
+                {
+                    forEachView(v, listener);
+                }
+            }
+            else
+                listener.each(view);
         }
 
         //emmm 彩蛋
