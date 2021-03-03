@@ -33,6 +33,7 @@ namespace Photo_File_Separator
                     catch (Exception e)
                     {
                         MessageBox.Show("请检查压缩包内是否使用了中文,错误信息:" + e.Message);
+                        continue;
                     }
                     //解压文件到指定的目录   
                     FileStream streamWriter = File.Create(outDir + theEntry.Name);
