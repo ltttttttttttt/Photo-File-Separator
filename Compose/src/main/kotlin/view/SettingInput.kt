@@ -6,11 +6,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 
@@ -20,7 +18,7 @@ import androidx.compose.ui.unit.dp
  * warning:
  */
 @Composable
-fun settingInput(
+fun SettingInput(
     leftText: String,
     onTextChangeListener: (String) -> Unit
 ) {

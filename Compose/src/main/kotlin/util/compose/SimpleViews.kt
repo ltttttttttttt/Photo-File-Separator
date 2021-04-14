@@ -13,11 +13,11 @@ import androidx.compose.runtime.Composable
  * 间隔view
  */
 @Composable
-fun horizontalSpace(dp: Int) {
+fun HorizontalSpace(dp: Int) {
     Spacer(w(dp))
 }
 
 @Composable
-fun verticalSpace(dp: Int) {
+fun VerticalSpace(dp: Int) {
     Spacer(h(dp))
 }
