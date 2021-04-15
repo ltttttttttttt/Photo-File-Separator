@@ -29,7 +29,7 @@ fun MyTheme(
     )
 }
 
-val blue = Color(0xFF2772F3)
+val blue = Color(0xFF2772AA)
 val backgroundColor = Color(0XFFE0E0E0)
 val blueDark = Color(0xFF0B182E)
 

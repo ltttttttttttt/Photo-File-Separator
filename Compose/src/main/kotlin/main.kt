@@ -3,27 +3,29 @@ import androidx.compose.foundation.gestures.DraggableState
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import util.compose.*
-import view.CheckBoxView
-import view.RadioButtonView
-import view.SettingInput
-import view.VerticalGroupCardView
+import view.*
 
 fun main() = Window(
     title = "UI图分离器",
+    size = IntSize(800, 800),
 ) {
     MyTheme {
         Column(Modifier.padding(8.dp)) {
             TopInput()
-            Row {
+            Row(M.height(500.dp)) {
                 Column {
                     Row {
                         SettingsPreSuffix()
@@ -41,18 +43,34 @@ fun main() = Window(
                     }
                 }
                 HorizontalSpace(8)
-                LogList()
+                LogList(listOf(ImageBitmap(30, 30) to "日志1", ImageBitmap(30, 30) to "日志2"))
+            }
+            VerticalSpace(8)
+            DataSourceButton {
+                // TODO by lt 2021/4/15 11:11 action
             }
         }
     }
 }
 
+//最底部接收数据的按钮
+@Composable
+fun DataSourceButton(onClick: () -> Unit) {
+    Button(onClick, M.fillMaxHeight().fillMaxWidth()) {
+        Text("拖动文件到这里或点击选择文件夹")
+    }
+}
+
 //日志列表
 @Composable
-fun LogList() {
+fun LogList(data: List<Pair<ImageBitmap, String>>) {
     Column {
-        VerticalGroupCardView("日志", M.weight(1f)) {
-            Text("123")
+        VerticalGroupCardView("日志", M.weight(1f).fillMaxWidth()) {
+            LazyColumn {
+                items(data) {
+                    LogItemView(it)
+                }
+            }
         }
         VerticalSpace(8)
     }
@@ -88,7 +106,7 @@ fun SettingsRepeat(selectIndex: Int, data: List<String>) {
 @Composable
 fun SettingsPhoto(selectIndex: Int, data: List<String>) {
     var selectIndex by rememberMutableStateOf(selectIndex)
-    var etText by remember { mutableStateOf("") }
+    var etText by remember { mutableStateOf("自定义") }
     VerticalGroupCardView("图片类型") {
         data.forEachIndexed { index, s ->
             RadioButtonView(index == selectIndex, s) {
@@ -170,7 +188,7 @@ fun SettingsPreSuffix() {
 //顶部地址栏
 @Composable
 fun TopInput() {
-    var etText by remember { mutableStateOf("") }
+    var etText by remember { mutableStateOf("请输入或选择输出文件夹") }
     Row {
         TextField(
             value = etText,
