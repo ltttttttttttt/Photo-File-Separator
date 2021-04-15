@@ -11,10 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import util.compose.HorizontalSpace
-import util.compose.MyTheme
-import util.compose.VerticalSpace
-import util.compose.rememberMutableStateOf
+import util.compose.*
 import view.CheckBoxView
 import view.RadioButtonView
 import view.SettingInput
@@ -26,33 +23,49 @@ fun main() = Window(
     MyTheme {
         Column(Modifier.padding(8.dp)) {
             TopInput()
-            Column {
-                Row {
-                    SettingsPreSuffix()
-                    HorizontalSpace(8)
-                    Column {
-                        SettingsWebP(true, 75)
-                        VerticalSpace(8)
-                        SettingsPhoto(0, listOf("mipmap", "drawable", "无"))
+            Row {
+                Column {
+                    Row {
+                        SettingsPreSuffix()
+                        HorizontalSpace(8)
+                        Column {
+                            SettingsWebP(true, 75)
+                            VerticalSpace(8)
+                            SettingsPhoto(0, listOf("mipmap", "drawable", "无"))
+                        }
+                    }
+                    Row {
+                        SettingsRepeat(0, listOf("尾数+n", "复制到新文件夹中", "忽略", "覆盖"))
+                        HorizontalSpace(8)
+                        SettingsOther(listOf(true to "自动复制id"))
                     }
                 }
-                Row {
-                    SettingsRepeat(0, listOf("尾数+n", "复制到新文件夹中", "忽略", "覆盖"))
-                    HorizontalSpace(8)
-                    SettingsOther(listOf(true to "自动复制id"))
-                }
+                HorizontalSpace(8)
+                LogList()
             }
         }
+    }
+}
+
+//日志列表
+@Composable
+fun LogList() {
+    Column {
+        VerticalGroupCardView("日志", M.weight(1f)) {
+            Text("123")
+        }
+        VerticalSpace(8)
     }
 }
 
 //其他设置
 @Composable
 fun SettingsOther(data: List<Pair<Boolean, String>>) {
+    val data = remember { mutableStateListOf(*data.toTypedArray()) }
     VerticalGroupCardView("其他") {
-        data.forEach {
-            CheckBoxView(it.first, it.second) {
-                // TODO by lt 2021/4/14 18:58 不知道这个list的状态怎么存和变更
+        data.forEachIndexed { index, pair ->
+            CheckBoxView(pair.first, pair.second) {
+                data[index] = Pair(it, pair.second)
             }
         }
     }

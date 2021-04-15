@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import util.compose.M
@@ -18,9 +17,9 @@ import util.compose.backgroundColor
  * warning:
  */
 @Composable
-fun VerticalGroupCardView(title: String, content: @Composable () -> Unit) {
+fun VerticalGroupCardView(title: String, m: M = M, content: @Composable ColumnScope.() -> Unit) {
     Box(
-        Modifier.offset(0.dp, 8.dp)
+        m.offset(0.dp, 8.dp)
             .background(
                 backgroundColor,
                 shape = RoundedCornerShape(8.dp)
