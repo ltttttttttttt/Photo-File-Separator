@@ -15,16 +15,20 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import util.SelectFileUtil
 import util.compose.*
 import view.*
+import java.awt.Component
+import javax.swing.JFileChooser
 
 fun main() = Window(
     title = "UI图分离器",
     size = IntSize(800, 800),
 ) {
+    var etTopText by remember { mutableStateOf("请输入或选择输出文件夹") }
     MyTheme {
         Column(Modifier.padding(8.dp)) {
-            TopInput()
+            TopInput(etTopText) { etTopText = it }
             Row(M.height(500.dp)) {
                 Column {
                     Row {
@@ -187,14 +191,11 @@ fun SettingsPreSuffix() {
 
 //顶部地址栏
 @Composable
-fun TopInput() {
-    var etText by remember { mutableStateOf("请输入或选择输出文件夹") }
+fun TopInput(etText: String, onText: (String) -> Unit) {
     Row {
         TextField(
             value = etText,
-            onValueChange = {
-                etText = it
-            },
+            onValueChange = onText,
             shape = RoundedCornerShape(0.dp),
             maxLines = 1,
             keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
@@ -203,7 +204,11 @@ fun TopInput() {
         Spacer(Modifier.width(16.dp))
         Button(
             {
-
+                // TODO by lt 2021/4/16 9:45 弹出选择窗,并选择地址
+//                JFileChooser().showOpenDialog(object : Component() {
+//
+//                })
+                SelectFileUtil.selectSignFile()
             },
             modifier = Modifier.height(55.dp)
         ) {
