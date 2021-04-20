@@ -37,10 +37,10 @@ val Purple300 = Color(0xFFCD52FC)
 val Purple700 = Color(0xFF8100EF)
 
 private val PlayThemeLight = lightColors(
-    primary = blue,//控件背景色,比如按钮背景颜色
+    primary = blue,//控件背景色,比如按钮背景颜色,复选框
     onPrimary = Color.White,//次要字颜色,比如按钮颜色
     primaryVariant = blue,//主要变体?
-    secondary = blue//次要控件色,比如复选框
+    secondary = blue//次要控件色
 )
 
 private val PlayThemeDark = darkColors(

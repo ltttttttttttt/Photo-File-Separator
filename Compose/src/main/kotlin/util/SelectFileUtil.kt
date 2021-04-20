@@ -11,8 +11,13 @@ import javax.swing.JFileChooser
  * warning:
  */
 object SelectFileUtil {
-    fun selectSignFile(): File? {
-        val jfc = JFileChooser() //新建一个选择文件夹的类型
+
+    /**
+     * 选择一个文件夹
+     */
+    fun selectSignDir(): File? {
+        val jfc = JFileChooser("C://") //新建一个选择文件夹的类型
+        jfc.fileSelectionMode = JFileChooser.DIRECTORIES_ONLY
         if (jfc.showOpenDialog(object : Component() {}) == JFileChooser.APPROVE_OPTION) { //开始选择路径
             return jfc.selectedFile
         }
