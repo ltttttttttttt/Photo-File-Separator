@@ -8,7 +8,7 @@ import javax.swing.JFileChooser
 /**
  * creator: lt  2021/4/16  lt.dygzs@qq.com
  * effect : 选择文件地址
- * warning:
+ * warning: 参考: https://blog.csdn.net/weixin_42294984/article/details/82707409
  */
 object SelectFileUtil {
 
