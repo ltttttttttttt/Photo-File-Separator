@@ -19,11 +19,12 @@ import util.SelectFileUtil
 import util.compose.*
 import view.*
 
+//新window api: https://github.com/JetBrains/compose-jb/tree/master/tutorials/Window_API_new
 fun main() =
     application {
         Window(
             title = "UI图分离器",
-            onCloseRequest = ::exitApplication
+            onCloseRequest = ::exitApplication,
         ) {
             Size(800f, 600f)
             MyTheme {
