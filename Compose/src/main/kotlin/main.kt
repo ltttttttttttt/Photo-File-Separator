@@ -1,4 +1,3 @@
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,32 +16,32 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import util.SelectFileUtil
 import util.compose.*
+import util.toMutableState
 import view.*
 
 //新window api: https://github.com/JetBrains/compose-jb/tree/master/tutorials/Window_API_new
 fun main() =
     application {
+        val vm = remember { MainVM() }
         Window(
             title = "UI图分离器",
             onCloseRequest = ::exitApplication,
         ) {
             Size(800f, 600f)
             MyTheme {
-                View()
+                View(vm)
             }
         }
     }
 
-
-@Preview
 @Composable
-private fun View() {
-    val (etTopText, setEtTopText) = remember { mutableStateOf("") }
+private fun View(vm: MainVM) {
+    var outputDirPath by vm.outputDirPath.toMutableState()
     Column(Modifier.padding(8.dp)) {
-        TopInput(etTopText, setEtTopText)
+        TopInput(outputDirPath) { outputDirPath = it }
         Row(M.height(340.dp)) {
             Column {
-                SettingsPreSuffix()
+                SettingsPreSuffix(vm)
                 VerticalSpace(8)
                 SettingsRepeat(0, listOf("尾数+n", "复制到新文件夹中", "忽略", "覆盖"))
             }
@@ -169,28 +168,23 @@ fun SettingsWebP(isCheck: Boolean, number: Float) {
 
 //前后缀设置
 @Composable
-fun SettingsPreSuffix() {
+fun SettingsPreSuffix(vm: MainVM) {
+    var removePrefix by vm.removePrefix.toMutableState()
+    var removeSuffix by vm.removeSuffix.toMutableState()
+    var addPrefix by vm.addPrefix.toMutableState()
+    var addSuffix by vm.addSuffix.toMutableState()
+    var unifiedNaming by vm.unifiedNaming.toMutableState()
     Column {
         VerticalSpace(4)
-        SettingInput("去掉前缀") {
-
-        }
+        SettingInput("去掉前缀", removePrefix) { removePrefix = it }
         VerticalSpace(4)
-        SettingInput("去掉后缀") {
-
-        }
+        SettingInput("去掉后缀", removeSuffix) { removeSuffix = it }
         VerticalSpace(4)
-        SettingInput("增加前缀") {
-
-        }
+        SettingInput("增加前缀", addPrefix) { addPrefix = it }
         VerticalSpace(4)
-        SettingInput("增加后缀") {
-
-        }
+        SettingInput("增加后缀", addSuffix) { addSuffix = it }
         VerticalSpace(4)
-        SettingInput("统一命名") {
-
-        }
+        SettingInput("统一命名", unifiedNaming) { unifiedNaming = it }
     }
 }
 

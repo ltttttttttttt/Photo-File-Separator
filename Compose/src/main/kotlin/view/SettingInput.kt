@@ -2,10 +2,9 @@ package view
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,9 +17,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SettingInput(
     leftText: String,
+    etText: String,
     onTextChangeListener: (String) -> Unit
 ) {
-    var etText by remember { mutableStateOf("") }
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -30,7 +29,6 @@ fun SettingInput(
             etText,
             modifier = Modifier.width(150.dp),
         ) {
-            etText = it
             onTextChangeListener(it)
         }
     }
