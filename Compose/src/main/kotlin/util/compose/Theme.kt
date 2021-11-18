@@ -33,8 +33,6 @@ val blue = Color(0xFF2772AA)
 val backgroundColor = Color(0XFFE0E0E0)
 val blueDark = Color(0xFF0B182E)
 
-val Purple300 = Color(0xFFCD52FC)
-val Purple700 = Color(0xFF8100EF)
 
 private val PlayThemeLight = lightColors(
     primary = blue,//控件背景色,比如按钮背景颜色,复选框

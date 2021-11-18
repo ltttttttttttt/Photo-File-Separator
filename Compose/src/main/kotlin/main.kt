@@ -1,7 +1,4 @@
-import androidx.compose.desktop.Window
-import androidx.compose.foundation.gestures.DraggableState
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,46 +8,57 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
 import util.SelectFileUtil
 import util.compose.*
 import view.*
 
-fun main() = Window(
-    title = "UI图分离器",
-    size = IntSize(800, 800),
-) {
+fun main() =
+    application {
+        Window(
+            title = "UI图分离器",
+            onCloseRequest = ::exitApplication
+        ) {
+            Size(800f, 600f)
+            MyTheme {
+                View()
+            }
+        }
+    }
+
+
+@Preview
+@Composable
+private fun View() {
     val (etTopText, setEtTopText) = remember { mutableStateOf("") }
-    MyTheme {
-        Column(Modifier.padding(8.dp)) {
-            TopInput(etTopText, setEtTopText)
-            Row(M.height(500.dp)) {
-                Column {
-                    Row {
-                        SettingsPreSuffix()
-                        HorizontalSpace(8)
-                        Column {
-                            SettingsWebP(true, 75)
-                            VerticalSpace(8)
-                            SettingsPhoto(0, listOf("mipmap", "drawable", "无"))
-                        }
-                    }
-                    Row {
-                        SettingsRepeat(0, listOf("尾数+n", "复制到新文件夹中", "忽略", "覆盖"))
-                        HorizontalSpace(8)
-                        SettingsOther(listOf(true to "自动复制id"))
-                    }
-                }
-                HorizontalSpace(8)
-                LogList(listOf(ImageBitmap(30, 30) to "日志1", ImageBitmap(30, 30) to "日志2"))
+    Column(Modifier.padding(8.dp)) {
+        TopInput(etTopText, setEtTopText)
+        Row(M.height(340.dp)) {
+            Column {
+                SettingsPreSuffix()
+                VerticalSpace(8)
+                SettingsRepeat(0, listOf("尾数+n", "复制到新文件夹中", "忽略", "覆盖"))
             }
-            VerticalSpace(8)
-            DataSourceButton {
-                // TODO by lt 2021/4/15 11:11 action
+            HorizontalSpace(8)
+            Column {
+                SettingsWebP(true, 75f)
+                VerticalSpace(8)
+                SettingsPhoto(0, listOf("mipmap", "drawable", "无"))
+                VerticalSpace(8)
+                SettingsOther(listOf(true to "自动复制id"))
             }
+            HorizontalSpace(8)
+            LogList(listOf(ImageBitmap(30, 30) to "日志1", ImageBitmap(30, 30) to "日志2"))
+        }
+        VerticalSpace(8)
+        DataSourceButton {
+            // TODO by lt 2021/4/15 11:11 action
         }
     }
 }
@@ -108,7 +116,7 @@ fun SettingsRepeat(selectIndex: Int, data: List<String>) {
 @Composable
 fun SettingsPhoto(selectIndex: Int, data: List<String>) {
     var selectIndex by rememberMutableStateOf(selectIndex)
-    var etText by remember { mutableStateOf("自定义") }
+    var etText by remember { mutableStateOf("") }
     VerticalGroupCardView("图片类型") {
         data.forEachIndexed { index, s ->
             RadioButtonView(index == selectIndex, s) {
@@ -121,42 +129,39 @@ fun SettingsPhoto(selectIndex: Int, data: List<String>) {
         ) {
             RadioButton(selectIndex == data.size, { selectIndex = data.size })
             HorizontalSpace(4)
-            TextField(
-                value = etText,
-                onValueChange = {
-                    etText = it
-                },
-                shape = RoundedCornerShape(0.dp),
-                maxLines = 1,
-                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                modifier = Modifier.height(60.dp).width(150.dp).padding(2.dp),
-                textStyle = MaterialTheme.typography.body1,
-            )
+            MTextField(
+                etText,
+                hint = "自定义",
+                modifier = Modifier.width(150.dp),
+                backgroundColor = ColorC4,
+            ) {
+                etText = it
+            }
         }
     }
 }
 
 //webp设置
 @Composable
-fun SettingsWebP(isCheck: Boolean, number: Int) {
+fun SettingsWebP(isCheck: Boolean, number: Float) {
     var isCheck by rememberMutableStateOf(isCheck)
     var number by remember { mutableStateOf(number) }
     VerticalGroupCardView("WebP") {
         CheckBoxView(isCheck, "压缩为WebP") { isCheck = it }
         VerticalSpace(2)
-        Text("压缩率$number(推荐75)")
+        Text("压缩率${number.toInt()}(推荐75)")
         VerticalSpace(2)
-        // TODO by lt 2021/4/14 14:32 不知道compose是否有现成的可拖动进度条
-        LinearProgressIndicator(
-            number.toFloat() / 100f,
-            //滑动监听
-            Modifier.draggable(state = DraggableState(onDelta = {
-                number += it.toInt() / 2
-                if (number < 0)
-                    number = 0
-                else if (number > 100)
-                    number = 100
-            }), orientation = Orientation.Horizontal)//只监听横向滑动?
+        Slider(
+            value = number,
+            colors = SliderDefaults.colors(
+                thumbColor = Color.White, // 圆圈的颜色
+//                activeTrackColor = Color(0xFF0079D3)
+            ),
+            onValueChange = {
+                number = it
+            },
+            modifier = M.height(20.dp),
+            valueRange = 0f..100f,
         )
     }
 }
@@ -165,6 +170,7 @@ fun SettingsWebP(isCheck: Boolean, number: Int) {
 @Composable
 fun SettingsPreSuffix() {
     Column {
+        VerticalSpace(4)
         SettingInput("去掉前缀") {
 
         }
