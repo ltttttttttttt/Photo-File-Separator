@@ -4,12 +4,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -43,18 +45,18 @@ private fun View(vm: MainVM) {
             Column {
                 SettingsPreSuffix(vm)
                 VerticalSpace(8)
-                SettingsRepeat(0, listOf("尾数+n", "复制到新文件夹中", "忽略", "覆盖"))
+                SettingsRepeat(vm, listOf("尾数+n", "复制到新文件夹中", "忽略", "覆盖"))
             }
             HorizontalSpace(8)
             Column {
-                SettingsWebP(true, 75f)
+                SettingsWebP(vm)
                 VerticalSpace(8)
-                SettingsPhoto(0, listOf("mipmap", "drawable", "无"))
+                SettingsPhoto(vm, listOf("mipmap", "drawable", ""))
                 VerticalSpace(8)
-                SettingsOther(listOf(true to "自动复制id"))
+                SettingsOther(vm)
             }
             HorizontalSpace(8)
-            LogList(listOf(ImageBitmap(30, 30) to "日志1", ImageBitmap(30, 30) to "日志2"))
+            LogList(vm)
         }
         VerticalSpace(8)
         DataSourceButton {
@@ -73,11 +75,11 @@ fun DataSourceButton(onClick: () -> Unit) {
 
 //日志列表
 @Composable
-fun LogList(data: List<Pair<ImageBitmap, String>>) {
+fun LogList(vm: MainVM) {
     Column {
         VerticalGroupCardView("日志", M.weight(1f).fillMaxWidth()) {
             LazyColumn {
-                items(data) {
+                items(vm.logs) {
                     LogItemView(it)
                 }
             }
@@ -88,21 +90,19 @@ fun LogList(data: List<Pair<ImageBitmap, String>>) {
 
 //其他设置
 @Composable
-fun SettingsOther(data: List<Pair<Boolean, String>>) {
-    val data = remember { mutableStateListOf(*data.toTypedArray()) }
+fun SettingsOther(vm: MainVM) {
+    var isAutoCopyId by vm.isAutoCopyId.toMutableState()
     VerticalGroupCardView("其他") {
-        data.forEachIndexed { index, pair ->
-            CheckBoxView(pair.first, pair.second) {
-                data[index] = Pair(it, pair.second)
-            }
+        CheckBoxView(isAutoCopyId, "自动复制id") {
+            isAutoCopyId = it
         }
     }
 }
 
 //重复策略设置
 @Composable
-fun SettingsRepeat(selectIndex: Int, data: List<String>) {
-    var selectIndex by rememberMutableStateOf(selectIndex)
+fun SettingsRepeat(vm: MainVM, data: List<String>) {
+    var selectIndex by vm.repeatStrategy.toMutableState()
     VerticalGroupCardView("重复策略") {
         data.forEachIndexed { index, s ->
             RadioButtonView(index == selectIndex, s) {
@@ -114,28 +114,32 @@ fun SettingsRepeat(selectIndex: Int, data: List<String>) {
 
 //图片设置
 @Composable
-fun SettingsPhoto(selectIndex: Int, data: List<String>) {
-    var selectIndex by rememberMutableStateOf(selectIndex)
-    var etText by remember { mutableStateOf("") }
+fun SettingsPhoto(vm: MainVM, data: List<String>) {
+    var selectName by vm.photoType.toMutableState()
+    var otherText by rememberMutableStateOf("")
     VerticalGroupCardView("图片类型") {
-        data.forEachIndexed { index, s ->
-            RadioButtonView(index == selectIndex, s) {
-                selectIndex = index
+        data.forEach {
+            RadioButtonView(it == selectName, if (it.isEmpty()) "无" else it) {
+                selectName = it
             }
         }
         VerticalSpace(4)
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            RadioButton(selectIndex == data.size, { selectIndex = data.size })
+            RadioButton(data.find { it == selectName } == null, {
+                selectName = if (otherText.isEmpty()) "自定义" else otherText
+            })
             HorizontalSpace(4)
             MTextField(
-                etText,
+                otherText,
                 hint = "自定义",
                 modifier = Modifier.width(150.dp),
                 backgroundColor = ColorC4,
             ) {
-                etText = it
+                otherText = it
+                if (data.find { it == selectName } == null)
+                    selectName = it
             }
         }
     }
@@ -143,9 +147,9 @@ fun SettingsPhoto(selectIndex: Int, data: List<String>) {
 
 //webp设置
 @Composable
-fun SettingsWebP(isCheck: Boolean, number: Float) {
-    var isCheck by rememberMutableStateOf(isCheck)
-    var number by remember { mutableStateOf(number) }
+fun SettingsWebP(vm: MainVM) {
+    var isCheck by vm.isSelectWebP.toMutableState()
+    var number by vm.webPRatio.toMutableState()
     VerticalGroupCardView("WebP") {
         CheckBoxView(isCheck, "压缩为WebP") { isCheck = it }
         VerticalSpace(2)
@@ -162,6 +166,7 @@ fun SettingsWebP(isCheck: Boolean, number: Float) {
             },
             modifier = M.height(20.dp),
             valueRange = 0f..100f,
+            enabled = isCheck,
         )
     }
 }
