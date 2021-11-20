@@ -61,3 +61,6 @@ freeline_project_description.json
 
 # c
 .cxx/
+
+# config
+photoConfig.obj

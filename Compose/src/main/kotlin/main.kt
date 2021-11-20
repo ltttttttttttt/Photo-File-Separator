@@ -24,10 +24,13 @@ import view.*
 //新window api: https://github.com/JetBrains/compose-jb/tree/master/tutorials/Window_API_new
 fun main() =
     application {
-        val vm = remember { MainVM() }
+        val vm = remember { MainVM.create() }
         Window(
             title = "UI图分离器",
-            onCloseRequest = ::exitApplication,
+            onCloseRequest = {
+                vm.saveData()
+                exitApplication()
+            },
         ) {
             Size(800f, 600f)
             MyTheme {
@@ -61,6 +64,7 @@ private fun View(vm: MainVM) {
         VerticalSpace(8)
         DataSourceButton {
             // TODO by lt 2021/4/15 11:11 action
+            vm.action(SelectFileUtil.selectSignDir()?.absolutePath ?: return@DataSourceButton)
         }
     }
 }
