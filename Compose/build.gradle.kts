@@ -29,6 +29,7 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
 
+//打包: https://github.com/JetBrains/compose-jb/tree/master/tutorials/Native_distributions_and_local_execution
 compose.desktop {
     application {
         mainClass = "MainKt"

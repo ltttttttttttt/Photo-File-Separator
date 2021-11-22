@@ -10,32 +10,35 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
+import androidx.compose.ui.window.singleWindowApplication
 import util.SelectFileUtil
 import util.compose.*
+import util.swing.addWindowClosingListener
+import util.swing.dropTarget
 import util.toMutableState
 import view.*
+import java.awt.Dimension
+
 
 //新window api: https://github.com/JetBrains/compose-jb/tree/master/tutorials/Window_API_new
+//将compose嵌入swing: https://github.com/JetBrains/compose-jb/tree/master/tutorials/Swing_Integration
 fun main() =
-    application {
+    singleWindowApplication {
         val vm = remember { MainVM.create() }
-        Window(
-            title = "UI图分离器",
-            onCloseRequest = {
-                vm.saveData()
-                exitApplication()
-            },
-        ) {
-            Size(800f, 600f)
-            MyTheme {
-                View(vm)
+        window.run {
+            title = "UI图分离器"
+            size = Dimension(800, 600)
+            addWindowClosingListener(vm::saveDataAndExit)
+            dropTarget {
+                it.forEach(vm::action)
             }
+        }
+
+        MyTheme {
+            View(vm)
         }
     }
 
@@ -62,17 +65,16 @@ private fun View(vm: MainVM) {
             LogList(vm)
         }
         VerticalSpace(8)
-        DataSourceButton {
-            // TODO by lt 2021/4/15 11:11 action
-            vm.action(SelectFileUtil.selectSignDir()?.absolutePath ?: return@DataSourceButton)
-        }
+        DataSourceButton(vm)
     }
 }
 
 //最底部接收数据的按钮
 @Composable
-fun DataSourceButton(onClick: () -> Unit) {
-    Button(onClick, M.fillMaxHeight().fillMaxWidth()) {
+fun DataSourceButton(vm: MainVM) {
+    Button({
+        vm.action(SelectFileUtil.selectSignDir()?.absolutePath ?: return@Button)
+    }, M.fillMaxHeight().fillMaxWidth()) {
         Text("拖动文件到这里或点击选择文件夹")
     }
 }

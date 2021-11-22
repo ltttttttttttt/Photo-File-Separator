@@ -1,6 +1,8 @@
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.ImageBitmap
 import base.BaseViewModel
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import java.io.*
 
 /**
@@ -9,6 +11,8 @@ import java.io.*
  * warning:
  */
 class MainVM private constructor(obj: Obj?) : BaseViewModel {
+    val mainScope = MainScope()
+
     val outputDirPath = stateFlow(obj?.outputDirPath ?: dataFile.parent)//输出文件夹
     val removePrefix = stateFlow(obj?.removePrefix ?: "")//去掉前缀
     val removeSuffix = stateFlow(obj?.removeSuffix ?: "")//去掉后缀
@@ -27,20 +31,21 @@ class MainVM private constructor(obj: Obj?) : BaseViewModel {
      * 开始移动
      */
     fun action(path: String) {
-        // TODO by lt 2021/11/20 17:04
+        // TODO by lt  使用flow或channel处理事件
         println(path)
     }
 
     /**
      * 将数据保存到本地
      */
-    fun saveData() {
+    fun saveDataAndExit() {
         if (dataFile.exists())
             dataFile.delete()
         dataFile.createNewFile()
         ObjectOutputStream(FileOutputStream(dataFile)).use {
             it.writeObject(toObj())
         }
+        mainScope.cancel()
     }
 
     private class Obj : Serializable {
