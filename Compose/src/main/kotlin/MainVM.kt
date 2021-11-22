@@ -1,8 +1,9 @@
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.ImageBitmap
 import base.BaseViewModel
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import java.io.*
 
 /**
@@ -11,8 +12,7 @@ import java.io.*
  * warning:
  */
 class MainVM private constructor(obj: Obj?) : BaseViewModel {
-    val mainScope = MainScope()
-
+    val mainScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     val outputDirPath = stateFlow(obj?.outputDirPath ?: dataFile.parent)//输出文件夹
     val removePrefix = stateFlow(obj?.removePrefix ?: "")//去掉前缀
     val removeSuffix = stateFlow(obj?.removeSuffix ?: "")//去掉后缀
@@ -26,13 +26,22 @@ class MainVM private constructor(obj: Obj?) : BaseViewModel {
     val isAutoCopyId =
         stateFlow(obj?.isAutoCopyId ?: true)//是否自动复制上次分离的图片图片的id todo 后续加上使用xml或code的id
     val logs = mutableStateListOf<Pair<ImageBitmap, String>>()//日志数据
+    private val channel = Channel<String>(UNLIMITED)//处理事件的channel
+
+    init {
+        mainScope.launch(Dispatchers.IO) {
+            for (path in channel) {
+                handlerTask(path)
+            }
+        }
+    }
 
     /**
      * 开始移动
      */
     fun action(path: String) {
-        // TODO by lt  使用flow或channel处理事件
         println(path)
+        channel.trySend(path)
     }
 
     /**
@@ -45,7 +54,13 @@ class MainVM private constructor(obj: Obj?) : BaseViewModel {
         ObjectOutputStream(FileOutputStream(dataFile)).use {
             it.writeObject(toObj())
         }
+        channel.close()
         mainScope.cancel()
+    }
+
+    private suspend fun handlerTask(path: String) {
+        // todo
+        logs.add(ImageBitmap(0, 0) to path)
     }
 
     private class Obj : Serializable {
