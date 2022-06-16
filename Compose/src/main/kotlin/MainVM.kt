@@ -1,5 +1,4 @@
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.ui.graphics.ImageBitmap
 import base.BaseViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -25,7 +24,7 @@ class MainVM private constructor(obj: Obj?) : BaseViewModel {
     val repeatStrategy = stateFlow(obj?.repeatStrategy ?: 0)//图片重复的策略:0尾数+n 1复制到新文件夹 2忽略 3覆盖
     val isAutoCopyId =
         stateFlow(obj?.isAutoCopyId ?: true)//是否自动复制上次分离的图片图片的id todo 后续加上使用xml或code的id
-    val logs = mutableStateListOf<Pair<ImageBitmap, String>>()//日志数据
+    val logs = mutableStateListOf<String>()//日志数据
     private val channel = Channel<String>(UNLIMITED)//处理事件的channel
 
     init {
@@ -60,7 +59,7 @@ class MainVM private constructor(obj: Obj?) : BaseViewModel {
 
     private suspend fun handlerTask(path: String) {
         // todo
-        logs.add(ImageBitmap(0, 0) to path)
+        logs.add(path)
     }
 
     private class Obj : Serializable {

@@ -47,7 +47,7 @@ private fun View(vm: MainVM) {
     var outputDirPath by vm.outputDirPath.toMutableState()
     Column(Modifier.padding(8.dp)) {
         TopInput(outputDirPath) { outputDirPath = it }
-        Row(M.height(340.dp)) {
+        Row(M.height(370.dp)) {
             Column {
                 SettingsPreSuffix(vm)
                 VerticalSpace(8)
@@ -131,7 +131,8 @@ fun SettingsPhoto(vm: MainVM, data: List<String>) {
         }
         VerticalSpace(4)
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = M.height(30.dp)
         ) {
             RadioButton(data.find { it == selectName } == null, {
                 selectName = if (otherText.isEmpty()) "自定义" else otherText

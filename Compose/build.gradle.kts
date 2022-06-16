@@ -3,14 +3,15 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.21"
-    id("org.jetbrains.compose") version "1.0.0-alpha3"
+    kotlin("jvm") version "1.6.10"
+    id("org.jetbrains.compose") version "1.1.1"
 }
 
 group = "com.lt.compose.desktop.spf"
 version = "1.0"
 
 repositories {
+    maven("https://jitpack.io")
     jcenter()
     google()
     mavenCentral()
@@ -19,6 +20,7 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
+    implementation("com.github.ltttttttttttt:load-the-image:1.0.2")
 }
 
 tasks.test {

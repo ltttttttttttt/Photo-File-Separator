@@ -1,6 +1,5 @@
 package view
 
-import androidx.annotation.IntRange
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -13,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import util.compose.ColorCCC
 import util.compose.M
 import util.compose.Shapes
 import util.compose.textStyles
@@ -27,7 +25,7 @@ import util.compose.textStyles
 fun MTextField(
     text: String,
     hint: String = "",
-    @IntRange(from = 1L) maxLines: Int = 1,
+    maxLines: Int = 1,
     modifier: Modifier = Modifier,
     backgroundColor: Color = util.compose.backgroundColor,
     onValueChange: (String) -> Unit
